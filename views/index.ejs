@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Student Management</title>
+        <link rel="stylesheet" type="text/css" href="/styles.css">
+    </head>
+<body>
+    <h1>Student List</h1>
+    
+    <form action="/add-student" method="POST">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="text" name="id" placeholder="ID" required>
+        <input type="number" name="age" placeholder="Age" required>
+        <input type="text" name="numberphone" placeholder="Phone Number" required>
+        <button type="submit">Add Student</button>
+    </form>
+
+    <ul>
+        <% studentsList.forEach(function(student) { %>
+            <li>
+                <strong>Name:</strong> <%= student.name %> | 
+                <strong>ID:</strong> <%= student.id %> | 
+                <strong>Age:</strong> <%= student.age %> | 
+                <strong>Phone:</strong> <%= student.numberphone %>
+                
+                <form action="/delete-student" method="POST" style="display:inline;">
+                    <input type="hidden" name="studentId" value="<%= student.id %>">
+                    <button type="submit">Delete</button>
+                </form>
+
+                <button onclick="showUpdateForm('<%= student.id %>', '<%= student.name %>', '<%= student.age %>', '<%= student.numberphone %>')">Update</button>
+            </li>
+        <% }); %>
+    </ul>
+
+    <div id="updateForm" style="display:none;">
+        <h2>Update Student</h2>
+        <form id="formUpdate" action="/update-student" method="POST">
+            <input type="hidden" name="studentId" id="studentId">
+            <input type="text" name="name" id="updateName" placeholder="Name" required>
+            <input type="number" name="age" id="updateAge" placeholder="Age" required>
+            <input type="text" name="numberphone" id="updatePhone" placeholder="Phone Number" required>
+            <button type="submit">Update Student</button>
+            <button type="button" onclick="document.getElementById('updateForm').style.display='none'">Cancel</button>
+        </form>
+    </div>
+
+    <script>
+        function showUpdateForm(id, name, age, phone) {
+            document.getElementById('studentId').value = id;
+            document.getElementById('updateName').value = name;
+            document.getElementById('updateAge').value = age;
+            document.getElementById('updatePhone').value = phone;
+            document.getElementById('updateForm').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
